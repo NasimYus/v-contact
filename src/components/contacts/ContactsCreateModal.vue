@@ -23,7 +23,7 @@ function clearForm(): void {
     email: '',
     tag: {}
   }
-  Modal.getInstance(modalRef.value)?.hide()
+  Modal.getInstance(modalRef.value!)?.hide()
 }
 
 function createContact(): void {

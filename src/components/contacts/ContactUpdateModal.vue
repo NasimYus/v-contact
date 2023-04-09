@@ -5,7 +5,7 @@ import type { TContact } from '@/types/contacts'
 import { useContactsStore } from '@/stores/contacts'
 
 type TProps = {
-  contact: TContact
+  contact: TContact | null
 }
 const props = defineProps<TProps>()
 
@@ -18,7 +18,7 @@ const modalRef = ref(null)
 
 function clearForm(): void {
   newContact.value = JSON.parse(JSON.stringify(props.contact))
-  Modal.getInstance(modalRef.value)?.hide()
+  Modal.getInstance(modalRef.value!)?.hide()
 }
 
 function updateContact(): void {
@@ -36,12 +36,12 @@ function updateContact(): void {
     type="button"
     class="btn btn-primary btn-sm"
     data-bs-toggle="modal"
-    :data-bs-target="`#contactsUpdateModal${contact.id}`"
+    :data-bs-target="`#contactsUpdateModal${contact?.id}`"
   >
     Редактировать
   </button>
   <div
-    :id="`contactsUpdateModal${contact.id}`"
+    :id="`contactsUpdateModal${contact?.id}`"
     ref="modalRef"
     class="modal fade"
     tabindex="-1"

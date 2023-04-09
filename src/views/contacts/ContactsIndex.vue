@@ -64,8 +64,8 @@ const ContactsFilters = defineAsyncComponent(
               <td>{{ contact.phone }}</td>
               <td>{{ contact.email }}</td>
               <td>
-                <span class="badge rounded-pill" :class="`bg-${contact.tag.color}`">{{
-                  contact.tag.label
+                <span class="badge rounded-pill" :class="`bg-${contact.tag?.color}`">{{
+                  contact.tag?.label
                 }}</span>
               </td>
               <td>
