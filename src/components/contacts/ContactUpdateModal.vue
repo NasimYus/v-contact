@@ -99,7 +99,7 @@ function updateContact(): void {
             <div class="mb-3">
               <label for="tags" class="form-label">Теги</label>
               <select v-model="newContact.tag" class="form-select" id="tags" required>
-                <option selected :value="{}">Выберите тег</option>
+                <option selected :value="null">Выберите тег</option>
                 <option v-for="tag in storeTags" :key="tag.id" :value="tag">{{ tag.label }}</option>
               </select>
             </div>

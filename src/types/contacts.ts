@@ -8,7 +8,7 @@ export type TContact = {
   fullName: string
   phone: string
   email: string
-  tag: TTag | {}
+  tag: TTag | null
   id?: number
 }
 
@@ -16,5 +16,5 @@ export type TQuery = {
   fullName: string
   phone: string
   email: string
-  tag: TTag | {}
+  tag: TTag | ''
 }

@@ -69,7 +69,7 @@ const ContactsFilters = defineAsyncComponent(
                 }}</span>
               </td>
               <td>
-                <button class="btn btn-danger btn-sm" @click="deleteContact(contact.id)">
+                <button class="btn btn-danger btn-sm" @click="deleteContact(contact.id ? contact.id : 0)">
                   Удалить
                 </button>
               </td>

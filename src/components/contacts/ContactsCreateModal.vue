@@ -11,7 +11,7 @@ const newContact = ref<TContact>({
   fullName: '',
   phone: '',
   email: '',
-  tag: {}
+  tag: null
 })
 const loading = ref<boolean>(false)
 const modalRef = ref(null)
@@ -21,7 +21,7 @@ function clearForm(): void {
     fullName: '',
     phone: '',
     email: '',
-    tag: {}
+    tag: null
   }
   Modal.getInstance(modalRef.value!)?.hide()
 }

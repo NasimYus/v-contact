@@ -9,7 +9,7 @@ type TState = {
 }
 
 type TActions = {
-  filterContacts: (data: { key: string; value?: string | TTag }) => void
+  filterContacts: (data: { key: string; value: string | TTag }) => void
   addContact: (contact: TContact) => void
   getContact: (id: number | string) => void
   editContact: (contact: TContact) => void
@@ -58,9 +58,11 @@ export const useContactsStore = defineStore<string, TState, Record<string, never
         if (data.key === 'clear') {
           this.filteredContacts = JSON.parse(JSON.stringify(this.contacts))
         } else if (data.key === 'tag') {
-          this.filteredContacts = this.contacts.filter((contact) => contact.tag.id === data.value)
+          // @ts-ignore
+          this.filteredContacts = this.contacts.filter((contact) => contact.tag.id === data?.value)
         } else {
           this.filteredContacts = this.contacts.filter((contact) =>
+            // @ts-ignore
             contact[data.key].includes(data.value)
           )
         }

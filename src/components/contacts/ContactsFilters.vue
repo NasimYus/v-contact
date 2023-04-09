@@ -11,16 +11,16 @@ const query = ref<TQuery>({
   fullName: '',
   phone: '',
   email: '',
-  tag: {}
+  tag: ''
 })
 
-function filterContacts(data: { key: string; value?: string | TTag }) {
+function filterContacts(data: { key: string; value: string | TTag }) {
   if (data.key === 'clear') {
     query.value = {
       fullName: '',
       phone: '',
       email: '',
-      tag: {}
+      tag: ''
     }
   }
   storeFilterContacts(data)
@@ -85,7 +85,7 @@ function filterContacts(data: { key: string; value?: string | TTag }) {
         </div>
       </form>
       <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-dark" @click="filterContacts({ key: 'clear' })">
+        <button class="btn btn-outline-dark" @click="filterContacts({ key: 'clear', value: '' })">
           Очистить фильтры
         </button>
       </div>
