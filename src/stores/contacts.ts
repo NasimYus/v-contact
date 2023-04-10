@@ -61,9 +61,8 @@ export const useContactsStore = defineStore<
       if (data.key === "clear") {
         this.filteredContacts = JSON.parse(JSON.stringify(this.contacts));
       } else if (data.key === "tag") {
-        // @ts-ignore
         this.filteredContacts = this.contacts.filter(
-          (contact) => contact.tag.id === data?.value
+          (contact) => contact?.tag?.id.toString() === data?.value.toString()
         );
       } else {
         this.filteredContacts = this.contacts.filter((contact) =>
