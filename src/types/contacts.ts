@@ -16,5 +16,5 @@ export type TQuery = {
   fullName: string;
   phone: string;
   email: string;
-  tag: TTag | "";
+  tag: "";
 };

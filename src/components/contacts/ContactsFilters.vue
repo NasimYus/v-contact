@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { TTag, TQuery } from "@/types/contacts";
+import type { TQuery } from "@/types/contacts";
 import { useContactsStore } from "@/stores/contacts";
 
-const storeContacts = useContactsStore().contacts;
-const storeFilterContacts = useContactsStore().filterContacts;
-const storeTags = useContactsStore().tags;
-
+const storeContacts = useContactsStore()
 const query = ref<TQuery>({
   fullName: "",
   phone: "",
@@ -14,19 +11,31 @@ const query = ref<TQuery>({
   tag: "",
 });
 
-function filterContacts(data: { key: string; value: string | TTag }) {
-  if (data.key === "clear") {
-    query.value = {
-      fullName: "",
-      phone: "",
-      email: "",
-      tag: "",
-    };
-  }
-  storeFilterContacts(data);
+function filterByTag(value:string ) {
+  storeContacts.filterByTag(value);
 }
-</script>
 
+function filterByName(value:  string ) {
+  storeContacts.filterByName(value);
+}
+function filterByPhone(value:  string ) {
+  storeContacts.filterByPhone(value);
+}
+function filterByEmail(value:  string ) {
+  storeContacts.filterByEmail(value);
+}
+
+function clearFilters() {
+  query.value = {
+    fullName: "",
+    phone: "",
+    email: "",
+    tag: "",
+  }
+  storeContacts.clearFilters();
+}
+
+</script>
 <template>
   <div class="card">
     <div class="card-body">
@@ -34,8 +43,8 @@ function filterContacts(data: { key: string; value: string | TTag }) {
         <div class="col-3">
           <label for="fullName" class="form-label">ФИО</label>
           <input
-            @input="filterContacts({ key: 'fullName', value: query.fullName })"
-            :disabled="!storeContacts.length"
+            @input="filterByName( query.fullName )"
+            :disabled="!storeContacts.contacts.length"
             v-model="query.fullName"
             type="text"
             id="fullName"
@@ -47,8 +56,8 @@ function filterContacts(data: { key: string; value: string | TTag }) {
         <div class="col-3">
           <label for="phone" class="form-label">Номер телефона</label>
           <input
-            @input="filterContacts({ key: 'phone', value: query.phone })"
-            :disabled="!storeContacts.length"
+            @input="filterByPhone(query.phone)"
+            :disabled="!storeContacts.contacts.length"
             v-model="query.phone"
             type="number"
             id="phone"
@@ -58,12 +67,12 @@ function filterContacts(data: { key: string; value: string | TTag }) {
           />
         </div>
         <div
-          @input="filterContacts({ key: 'email', value: query.email })"
           class="col-3"
         >
           <label for="email" class="form-label">Email адрес</label>
           <input
-            :disabled="!storeContacts.length"
+            @input="filterByEmail(query.email)"
+            :disabled="!storeContacts.contacts.length"
             v-model="query.email"
             type="email"
             id="email"
@@ -75,15 +84,15 @@ function filterContacts(data: { key: string; value: string | TTag }) {
         <div class="col-3">
           <label for="tags" class="form-label">Теги</label>
           <select
-            @change="filterContacts({ key: 'tag', value: query.tag })"
-            :disabled="!storeContacts.length"
+            @change="filterByTag(query.tag)"
+            :disabled="!storeContacts.contacts.length"
             v-model="query.tag"
             class="form-select"
             id="tags"
             required
           >
             <option selected :value="''">Выберите тег</option>
-            <option v-for="tag in storeTags" :key="tag.id" :value="tag.id">
+            <option v-for="tag in storeContacts.tags" :key="tag.id" :value="tag.id">
               {{ tag.label }}
             </option>
           </select>
@@ -92,7 +101,7 @@ function filterContacts(data: { key: string; value: string | TTag }) {
       <div class="d-flex justify-content-end">
         <button
           class="btn btn-outline-dark"
-          @click="filterContacts({ key: 'clear', value: '' })"
+          @click="clearFilters"
         >
           Очистить фильтры
         </button>

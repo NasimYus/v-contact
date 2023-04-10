@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: "/",
       name: "core",
-      component: () => import("../layouts/CoreLayout.vue"),
+      component: () => import("@/layouts/CoreLayout.vue"),
       meta: {
         title: "Главная",
       },
@@ -15,7 +15,7 @@ const router = createRouter({
         {
           path: "/contacts",
           name: "contacts",
-          component: () => import("../views/contacts/ContactsIndex.vue"),
+          component: () => import("@/views/contacts/ContactsIndex.vue"),
           meta: {
             title: "Главная",
           },
@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: "/contacts/:id",
           name: "contact-detail",
-          component: () => import("../views/contacts/detail/ContactDetail.vue"),
+          component: () => import("@/views/contacts/detail/ContactDetail.vue"),
           props: true,
           meta: {
             title: "контакт",

@@ -4,19 +4,20 @@ import { useContactsStore } from "@/stores/contacts";
 
 const loading = ref<boolean>(false);
 
-let storeContacts = useContactsStore().contacts;
+const storeContacts = useContactsStore()
+let contacts = storeContacts.contacts
 const storeFilteredContacts = computed(() => {
-  return JSON.stringify(useContactsStore().filteredContacts);
+  return JSON.stringify(storeContacts.filteredContacts);
 });
-const storeDeleteContact = useContactsStore().deleteContact;
 
 watch(storeFilteredContacts, () => {
   loading.value = true;
-  storeContacts = useContactsStore().filteredContacts;
+  contacts = storeContacts.filteredContacts;
   loading.value = false;
 });
+
 function deleteContact(contactId: number): void {
-  storeDeleteContact(contactId);
+  storeContacts.deleteContact(contactId);
 }
 
 // components
@@ -50,8 +51,8 @@ const ContactsFilters = defineAsyncComponent(
           </tr>
         </thead>
         <tbody>
-          <template v-if="storeContacts.length">
-            <tr v-for="contact in storeContacts" :key="contact.id">
+          <template v-if="contacts.length">
+            <tr v-for="contact in contacts" :key="contact.id">
               <th scope="row">{{ contact.id }}</th>
               <td>
                 <router-link

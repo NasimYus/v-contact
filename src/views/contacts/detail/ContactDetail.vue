@@ -11,7 +11,7 @@ const id = ref<number>(+route.params.id);
 const storeContacts = useContactsStore();
 storeContacts.getContact(+id.value);
 const storeSelectedContact = computed(() => {
-  return useContactsStore().selectedContact;
+  return storeContacts.selectedContact;
 });
 
 const ContactsUpdateModal = defineAsyncComponent(

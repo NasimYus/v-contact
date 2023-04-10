@@ -4,9 +4,7 @@ import { ref } from "vue";
 import type { TContact } from "@/types/contacts";
 import { useContactsStore } from "@/stores/contacts";
 
-const storeAddContact = useContactsStore().addContact;
-const storeTags = useContactsStore().tags;
-
+const storeContacts = useContactsStore();
 const newContact = ref<TContact>({
   fullName: "",
   phone: "",
@@ -29,13 +27,12 @@ function clearForm(): void {
 function createContact(): void {
   loading.value = true;
   setTimeout(() => {
-    storeAddContact(newContact.value);
+    storeContacts.addContact(newContact.value);
     clearForm();
     loading.value = false;
   }, 1000);
 }
 </script>
-
 <template>
   <button
     type="button"
@@ -110,7 +107,7 @@ function createContact(): void {
                 required
               >
                 <option selected :value="null">Выберите тег</option>
-                <option v-for="tag in storeTags" :key="tag.id" :value="tag">
+                <option v-for="tag in storeContacts.tags" :key="tag.id" :value="tag">
                   {{ tag.label }}
                 </option>
               </select>

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type { TContact, TTag } from "@/types/contacts";
+
 type TState = {
   lastNumberOfId: number;
   contacts: TContact[];
@@ -9,13 +10,18 @@ type TState = {
 };
 
 type TActions = {
-  filterContacts: (data: { key: string; value: string | TTag }) => void;
+  filterByName: (value:  string ) => void;
+  filterByPhone: (value:  string ) => void;
+  filterByEmail: (value:  string ) => void;
+  filterByTag: (value:  string ) => void;
+  clearFilters: () => void;
   addContact: (contact: TContact) => void;
   getContact: (id: number | string) => void;
   editContact: (contact: TContact) => void;
   deleteContact: (contactId: number) => void;
   getLastNumberOfId: () => void;
 };
+
 export const useContactsStore = defineStore<
   string,
   TState,
@@ -38,7 +44,7 @@ export const useContactsStore = defineStore<
       },
       {
         label: "Университет",
-        color: "light",
+        color: "secondary",
         id: 3,
       },
       {
@@ -57,23 +63,38 @@ export const useContactsStore = defineStore<
   }),
 
   actions: {
-    filterContacts(data) {
-      if (data.key === "clear") {
-        this.filteredContacts = JSON.parse(JSON.stringify(this.contacts));
-      } else if (data.key === "tag") {
-        this.filteredContacts = this.contacts.filter(
-          (contact) => contact?.tag?.id.toString() === data?.value.toString()
-        );
-      } else {
+    filterByName(value) {
         this.filteredContacts = this.contacts.filter((contact) =>
-          // @ts-ignore
-          contact[data.key]
-            .toString()
+          contact.fullName
             .toLowerCase()
-            .includes(data.value.toString().toLowerCase())
+            .includes(value.toString().toLowerCase())
         );
-      }
     },
+
+    filterByPhone(value) {
+      this.filteredContacts = this.contacts.filter((contact) =>
+        contact.phone.toString().includes(value.toString())
+      );
+    },
+
+    filterByEmail(value) {
+      this.filteredContacts = this.contacts.filter((contact) =>
+        contact.email
+          .toLowerCase()
+          .includes(value.toString().toLowerCase())
+      );
+    },
+
+    filterByTag(value) {
+      this.filteredContacts = this.contacts.filter(
+        (contact) => contact?.tag?.id.toString() === value?.toString()
+      );
+    },
+
+    clearFilters() {
+      this.filteredContacts = JSON.parse(JSON.stringify(this.contacts));
+    },
+
     getContact(id) {
       this.contacts.forEach((contact) => {
         if (contact.id === id) {
@@ -81,10 +102,12 @@ export const useContactsStore = defineStore<
         }
       });
     },
+
     addContact(contact) {
       this.getLastNumberOfId();
       this.contacts.unshift({ ...contact, id: this.lastNumberOfId });
     },
+
     editContact(updatedContact) {
       const contactIndex: number = this.contacts.findIndex(
         (contact: TContact) => contact.id === updatedContact.id
@@ -92,12 +115,14 @@ export const useContactsStore = defineStore<
       this.contacts.splice(contactIndex, 1, updatedContact);
       this.selectedContact = updatedContact;
     },
+
     deleteContact(contactId) {
       const contactIndex: number = this.contacts.findIndex(
         (contact: TContact) => contact.id === contactId
       );
       this.contacts.splice(contactIndex, 1);
     },
+
     getLastNumberOfId() {
       if (this.contacts.length) {
         const lastContactIndex = this.contacts.length - 1;
