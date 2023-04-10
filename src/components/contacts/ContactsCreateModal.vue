@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { Modal } from 'bootstrap'
-import { ref } from 'vue'
-import type { TContact } from '@/types/contacts'
-import { useContactsStore } from '@/stores/contacts'
+import { Modal } from "bootstrap";
+import { ref } from "vue";
+import type { TContact } from "@/types/contacts";
+import { useContactsStore } from "@/stores/contacts";
 
-const storeAddContact = useContactsStore().addContact
-const storeTags = useContactsStore().tags
+const storeAddContact = useContactsStore().addContact;
+const storeTags = useContactsStore().tags;
 
 const newContact = ref<TContact>({
-  fullName: '',
-  phone: '',
-  email: '',
-  tag: null
-})
-const loading = ref<boolean>(false)
-const modalRef = ref(null)
+  fullName: "",
+  phone: "",
+  email: "",
+  tag: null,
+});
+const loading = ref<boolean>(false);
+const modalRef = ref(null);
 
 function clearForm(): void {
   newContact.value = {
-    fullName: '',
-    phone: '',
-    email: '',
-    tag: null
-  }
-  Modal.getInstance(modalRef.value!)?.hide()
+    fullName: "",
+    phone: "",
+    email: "",
+    tag: null,
+  };
+  Modal.getInstance(modalRef.value!)?.hide();
 }
 
 function createContact(): void {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
-    storeAddContact(newContact.value)
-    clearForm()
-    loading.value = false
-  }, 1000)
+    storeAddContact(newContact.value);
+    clearForm();
+    loading.value = false;
+  }, 1000);
 }
 </script>
 
@@ -45,7 +45,13 @@ function createContact(): void {
   >
     Добавить
   </button>
-  <div id="contactsCreateModal" ref="modalRef" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div
+    id="contactsCreateModal"
+    ref="modalRef"
+    class="modal fade"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -97,15 +103,27 @@ function createContact(): void {
             </div>
             <div class="mb-3">
               <label for="tags" class="form-label">Теги</label>
-              <select v-model="newContact.tag" class="form-select" id="tags" required>
-                <option selected :value="{}">Выберите тег</option>
-                <option v-for="tag in storeTags" :key="tag.id" :value="tag">{{ tag.label }}</option>
+              <select
+                v-model="newContact.tag"
+                class="form-select"
+                id="tags"
+                required
+              >
+                <option selected :value="null">Выберите тег</option>
+                <option v-for="tag in storeTags" :key="tag.id" :value="tag">
+                  {{ tag.label }}
+                </option>
               </select>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button :disabled="loading" type="button" class="btn btn-light" @click="clearForm">
+          <button
+            :disabled="loading"
+            type="button"
+            class="btn btn-light"
+            @click="clearForm"
+          >
             Отмена
           </button>
           <button

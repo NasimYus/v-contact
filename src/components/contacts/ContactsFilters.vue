@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { TTag, TQuery } from '@/types/contacts'
-import { useContactsStore } from '@/stores/contacts'
+import { ref } from "vue";
+import type { TTag, TQuery } from "@/types/contacts";
+import { useContactsStore } from "@/stores/contacts";
 
-const storeContacts = useContactsStore().contacts
-const storeFilterContacts = useContactsStore().filterContacts
-const storeTags = useContactsStore().tags
+const storeContacts = useContactsStore().contacts;
+const storeFilterContacts = useContactsStore().filterContacts;
+const storeTags = useContactsStore().tags;
 
 const query = ref<TQuery>({
-  fullName: '',
-  phone: '',
-  email: '',
-  tag: ''
-})
+  fullName: "",
+  phone: "",
+  email: "",
+  tag: "",
+});
 
 function filterContacts(data: { key: string; value: string | TTag }) {
-  if (data.key === 'clear') {
+  if (data.key === "clear") {
     query.value = {
-      fullName: '',
-      phone: '',
-      email: '',
-      tag: ''
-    }
+      fullName: "",
+      phone: "",
+      email: "",
+      tag: "",
+    };
   }
-  storeFilterContacts(data)
+  storeFilterContacts(data);
 }
 </script>
 
@@ -57,7 +57,10 @@ function filterContacts(data: { key: string; value: string | TTag }) {
             required
           />
         </div>
-        <div @input="filterContacts({ key: 'email', value: query.email })" class="col-3">
+        <div
+          @input="filterContacts({ key: 'email', value: query.email })"
+          class="col-3"
+        >
           <label for="email" class="form-label">Email адрес</label>
           <input
             :disabled="!storeContacts.length"
@@ -79,13 +82,18 @@ function filterContacts(data: { key: string; value: string | TTag }) {
             id="tags"
             required
           >
-            <option selected :value="{}">Выберите тег</option>
-            <option v-for="tag in storeTags" :key="tag.id" :value="tag.id">{{ tag.label }}</option>
+            <option selected :value="''">Выберите тег</option>
+            <option v-for="tag in storeTags" :key="tag.id" :value="tag.id">
+              {{ tag.label }}
+            </option>
           </select>
         </div>
       </form>
       <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-dark" @click="filterContacts({ key: 'clear', value: '' })">
+        <button
+          class="btn btn-outline-dark"
+          @click="filterContacts({ key: 'clear', value: '' })"
+        >
           Очистить фильтры
         </button>
       </div>

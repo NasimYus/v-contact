@@ -1,37 +1,37 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      name: 'core',
-      component: () => import('../layouts/CoreLayout.vue'),
+      path: "/",
+      name: "core",
+      component: () => import("../layouts/CoreLayout.vue"),
       meta: {
-        title: 'Главная'
+        title: "Главная",
       },
-      redirect: { name: 'contacts' },
+      redirect: { name: "contacts" },
       children: [
         {
-          path: '/contacts',
-          name: 'contacts',
-          component: () => import('../views/contacts/ContactsIndex.vue'),
+          path: "/contacts",
+          name: "contacts",
+          component: () => import("../views/contacts/ContactsIndex.vue"),
           meta: {
-            title: 'Главная'
-          }
+            title: "Главная",
+          },
         },
         {
-          path: '/contacts/:id',
-          name: 'contact-detail',
-          component: () => import('../views/contacts/detail/ContactDetail.vue'),
+          path: "/contacts/:id",
+          name: "contact-detail",
+          component: () => import("../views/contacts/detail/ContactDetail.vue"),
           props: true,
           meta: {
-            title: 'контакт'
-          }
-        }
-      ]
-    }
-  ]
-})
+            title: "контакт",
+          },
+        },
+      ],
+    },
+  ],
+});
 
-export default router
+export default router;

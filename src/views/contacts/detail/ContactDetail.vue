@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { useContactsStore } from '@/stores/contacts'
-import { useRoute, useRouter } from 'vue-router'
-import { defineAsyncComponent, ref } from 'vue'
+import { useContactsStore } from "@/stores/contacts";
+import { useRoute, useRouter } from "vue-router";
+import { computed, defineAsyncComponent, ref } from "vue";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const id = ref<number>(+route.params.id)
+const id = ref<number>(+route.params.id);
 
-const storeContacts = useContactsStore()
-const storeSelectedContact = useContactsStore().selectedContact
-storeContacts.getContact(+id.value)
+const storeContacts = useContactsStore();
+storeContacts.getContact(+id.value);
+const storeSelectedContact = computed(() => {
+  return useContactsStore().selectedContact;
+});
 
 const ContactsUpdateModal = defineAsyncComponent(
-  () => import('@/components/contacts/ContactUpdateModal.vue')
-)
+  () => import("@/components/contacts/ContactUpdateModal.vue")
+);
 </script>
 
 <template>
@@ -24,17 +26,20 @@ const ContactsUpdateModal = defineAsyncComponent(
         <div class="d-flex justify-content-between">
           <h4>{{ storeSelectedContact?.fullName }}</h4>
           <div class="d-flex gap-2">
-            <button class="btn btn-light btn-sm" @click="router.back()">Назад</button>
-            <ContactsUpdateModal :contact="storeSelectedContact" />
+            <button class="btn btn-light btn-sm" @click="router.back()">
+              Назад
+            </button>
+            <ContactsUpdateModal />
           </div>
         </div>
         <p class="text-muted m-0">
           {{ storeSelectedContact?.phone }}, {{ storeSelectedContact?.email }}
         </p>
-        <span class="badge rounded-pill" :class="`bg-${storeSelectedContact?.tag?.color}`">
-          {{
-            storeSelectedContact?.tag?.label
-          }}
+        <span
+          class="badge rounded-pill"
+          :class="`bg-${storeSelectedContact?.tag?.color}`"
+        >
+          {{ storeSelectedContact?.tag?.label }}
         </span>
       </div>
     </div>

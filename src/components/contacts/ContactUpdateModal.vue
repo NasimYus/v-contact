@@ -1,33 +1,31 @@
 <script setup lang="ts">
-import { Modal } from 'bootstrap'
-import { ref } from 'vue'
-import type { TContact } from '@/types/contacts'
-import { useContactsStore } from '@/stores/contacts'
+import { Modal } from "bootstrap";
+import { ref } from "vue";
+import type { TContact } from "@/types/contacts";
+import { useContactsStore } from "@/stores/contacts";
 
-type TProps = {
-  contact: TContact | null
-}
-const props = defineProps<TProps>()
+const storeEditContact = useContactsStore().editContact;
+const storeTags = useContactsStore().tags;
+const storeSelectedContact = useContactsStore().selectedContact;
 
-const storeEditContact = useContactsStore().editContact
-const storeTags = useContactsStore().tags
-
-const newContact = ref<TContact>(JSON.parse(JSON.stringify(props.contact)))
-const loading = ref<boolean>(false)
-const modalRef = ref(null)
+const newContact = ref<TContact>(
+  JSON.parse(JSON.stringify(storeSelectedContact))
+);
+const loading = ref<boolean>(false);
+const modalRef = ref(null);
 
 function clearForm(): void {
-  newContact.value = JSON.parse(JSON.stringify(props.contact))
-  Modal.getInstance(modalRef.value!)?.hide()
+  newContact.value = JSON.parse(JSON.stringify(storeSelectedContact));
+  Modal.getInstance(modalRef.value!)?.hide();
 }
 
 function updateContact(): void {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
-    storeEditContact(newContact.value)
-    clearForm()
-    loading.value = false
-  }, 1000)
+    storeEditContact(newContact.value);
+    clearForm();
+    loading.value = false;
+  }, 1000);
 }
 </script>
 
@@ -36,12 +34,12 @@ function updateContact(): void {
     type="button"
     class="btn btn-primary btn-sm"
     data-bs-toggle="modal"
-    :data-bs-target="`#contactsUpdateModal${contact?.id}`"
+    :data-bs-target="`#contactsUpdateModal${storeSelectedContact?.id}`"
   >
     Редактировать
   </button>
   <div
-    :id="`contactsUpdateModal${contact?.id}`"
+    :id="`contactsUpdateModal${storeSelectedContact?.id}`"
     ref="modalRef"
     class="modal fade"
     tabindex="-1"
@@ -98,15 +96,27 @@ function updateContact(): void {
             </div>
             <div class="mb-3">
               <label for="tags" class="form-label">Теги</label>
-              <select v-model="newContact.tag" class="form-select" id="tags" required>
+              <select
+                v-model="newContact.tag"
+                class="form-select"
+                id="tags"
+                required
+              >
                 <option selected :value="null">Выберите тег</option>
-                <option v-for="tag in storeTags" :key="tag.id" :value="tag">{{ tag.label }}</option>
+                <option v-for="tag in storeTags" :key="tag.id" :value="tag">
+                  {{ tag.label }}
+                </option>
               </select>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button :disabled="loading" type="button" class="btn btn-light" @click="clearForm">
+          <button
+            :disabled="loading"
+            type="button"
+            class="btn btn-light"
+            @click="clearForm"
+          >
             Отмена
           </button>
           <button

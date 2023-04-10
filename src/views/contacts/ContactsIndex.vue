@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, watch, ref } from 'vue'
-import { useContactsStore } from '@/stores/contacts'
+import { computed, defineAsyncComponent, watch, ref } from "vue";
+import { useContactsStore } from "@/stores/contacts";
 
-const loading = ref<boolean>(false)
+const loading = ref<boolean>(false);
 
-let storeContacts = useContactsStore().contacts
+let storeContacts = useContactsStore().contacts;
 const storeFilteredContacts = computed(() => {
-  return JSON.stringify(useContactsStore().filteredContacts)
-})
-const storeDeleteContact = useContactsStore().deleteContact
+  return JSON.stringify(useContactsStore().filteredContacts);
+});
+const storeDeleteContact = useContactsStore().deleteContact;
 
 watch(storeFilteredContacts, () => {
-  loading.value = true
-  storeContacts = useContactsStore().filteredContacts
-  loading.value = false
-})
+  loading.value = true;
+  storeContacts = useContactsStore().filteredContacts;
+  loading.value = false;
+});
 function deleteContact(contactId: number): void {
-  storeDeleteContact(contactId)
+  storeDeleteContact(contactId);
 }
 
 // components
 const ContactsCreateModal = defineAsyncComponent(
-  () => import('@/components/contacts/ContactsCreateModal.vue')
-)
+  () => import("@/components/contacts/ContactsCreateModal.vue")
+);
 const ContactsFilters = defineAsyncComponent(
-  () => import('@/components/contacts/ContactsFilters.vue')
-)
+  () => import("@/components/contacts/ContactsFilters.vue")
+);
 </script>
 <template>
   <div class="container pt-3">
@@ -64,12 +64,17 @@ const ContactsFilters = defineAsyncComponent(
               <td>{{ contact.phone }}</td>
               <td>{{ contact.email }}</td>
               <td>
-                <span class="badge rounded-pill" :class="`bg-${contact.tag?.color}`">{{
-                  contact.tag?.label
-                }}</span>
+                <span
+                  class="badge rounded-pill"
+                  :class="`bg-${contact.tag?.color}`"
+                  >{{ contact.tag?.label }}</span
+                >
               </td>
               <td>
-                <button class="btn btn-danger btn-sm" @click="deleteContact(contact.id ? contact.id : 0)">
+                <button
+                  class="btn btn-danger btn-sm"
+                  @click="deleteContact(contact.id ? contact.id : 0)"
+                >
                   Удалить
                 </button>
               </td>
