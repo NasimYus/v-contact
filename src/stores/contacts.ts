@@ -10,10 +10,10 @@ type TState = {
 };
 
 type TActions = {
-  filterByName: (value:  string ) => void;
-  filterByPhone: (value:  string ) => void;
-  filterByEmail: (value:  string ) => void;
-  filterByTag: (value:  string ) => void;
+  filterByName: (value: string) => void;
+  filterByPhone: (value: string) => void;
+  filterByEmail: (value: string) => void;
+  filterByTag: (value: string) => void;
   clearFilters: () => void;
   addContact: (contact: TContact) => void;
   getContact: (id: number | string) => void;
@@ -64,11 +64,9 @@ export const useContactsStore = defineStore<
 
   actions: {
     filterByName(value) {
-        this.filteredContacts = this.contacts.filter((contact) =>
-          contact.fullName
-            .toLowerCase()
-            .includes(value.toString().toLowerCase())
-        );
+      this.filteredContacts = this.contacts.filter((contact) =>
+        contact.fullName.toLowerCase().includes(value.toString().toLowerCase())
+      );
     },
 
     filterByPhone(value) {
@@ -79,9 +77,7 @@ export const useContactsStore = defineStore<
 
     filterByEmail(value) {
       this.filteredContacts = this.contacts.filter((contact) =>
-        contact.email
-          .toLowerCase()
-          .includes(value.toString().toLowerCase())
+        contact.email.toLowerCase().includes(value.toString().toLowerCase())
       );
     },
 

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import type { TQuery } from "@/types/contacts";
 import { useContactsStore } from "@/stores/contacts";
 
-const storeContacts = useContactsStore()
+const storeContacts = useContactsStore();
 const query = ref<TQuery>({
   fullName: "",
   phone: "",
@@ -11,17 +11,17 @@ const query = ref<TQuery>({
   tag: "",
 });
 
-function filterByTag(value:string ) {
+function filterByTag(value: string) {
   storeContacts.filterByTag(value);
 }
 
-function filterByName(value:  string ) {
+function filterByName(value: string) {
   storeContacts.filterByName(value);
 }
-function filterByPhone(value:  string ) {
+function filterByPhone(value: string) {
   storeContacts.filterByPhone(value);
 }
-function filterByEmail(value:  string ) {
+function filterByEmail(value: string) {
   storeContacts.filterByEmail(value);
 }
 
@@ -31,10 +31,9 @@ function clearFilters() {
     phone: "",
     email: "",
     tag: "",
-  }
+  };
   storeContacts.clearFilters();
 }
-
 </script>
 <template>
   <div class="card">
@@ -43,7 +42,7 @@ function clearFilters() {
         <div class="col-3">
           <label for="fullName" class="form-label">ФИО</label>
           <input
-            @input="filterByName( query.fullName )"
+            @input="filterByName(query.fullName)"
             :disabled="!storeContacts.contacts.length"
             v-model="query.fullName"
             type="text"
@@ -66,9 +65,7 @@ function clearFilters() {
             required
           />
         </div>
-        <div
-          class="col-3"
-        >
+        <div class="col-3">
           <label for="email" class="form-label">Email адрес</label>
           <input
             @input="filterByEmail(query.email)"
@@ -92,17 +89,18 @@ function clearFilters() {
             required
           >
             <option selected :value="''">Выберите тег</option>
-            <option v-for="tag in storeContacts.tags" :key="tag.id" :value="tag.id">
+            <option
+              v-for="tag in storeContacts.tags"
+              :key="tag.id"
+              :value="tag.id"
+            >
               {{ tag.label }}
             </option>
           </select>
         </div>
       </form>
       <div class="d-flex justify-content-end">
-        <button
-          class="btn btn-outline-dark"
-          @click="clearFilters"
-        >
+        <button class="btn btn-outline-dark" @click="clearFilters">
           Очистить фильтры
         </button>
       </div>

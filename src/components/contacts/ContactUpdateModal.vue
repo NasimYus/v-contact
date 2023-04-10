@@ -99,7 +99,11 @@ function updateContact(): void {
                 required
               >
                 <option selected :value="null">Выберите тег</option>
-                <option v-for="tag in storeContacts.tags" :key="tag.id" :value="tag">
+                <option
+                  v-for="tag in storeContacts.tags"
+                  :key="tag.id"
+                  :value="tag"
+                >
                   {{ tag.label }}
                 </option>
               </select>

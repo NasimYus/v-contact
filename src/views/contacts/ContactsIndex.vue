@@ -4,8 +4,8 @@ import { useContactsStore } from "@/stores/contacts";
 
 const loading = ref<boolean>(false);
 
-const storeContacts = useContactsStore()
-let contacts = storeContacts.contacts
+const storeContacts = useContactsStore();
+let contacts = storeContacts.contacts;
 const storeFilteredContacts = computed(() => {
   return JSON.stringify(storeContacts.filteredContacts);
 });
